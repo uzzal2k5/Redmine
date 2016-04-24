@@ -3,6 +3,8 @@
 inet_dev=`ip a | grep inet | awk -F' ' '{ print $7 }'`;
 eth_ip=$(ip addr list ${inet_dev} |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
 ServerName=`hostname`
+# SELINUX
+sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 # Install Prerequisite one by one
 # MySQL and HTTPD server Install
 yum -y install mariadb-server httpd wget
@@ -69,4 +71,5 @@ chown -R apache. /var/www/redmine
 systemctl restart httpd 
 systemctl enable httpd 
 systemctl status -l  httpd 
-echo "Congratulation! Browse Redmine with http://${ServerName} or http://${eth_ip}"
+echo "Congratulation! Reboot & Browse Redmine with http://${ServerName} or http://${eth_ip}"
+reboot
