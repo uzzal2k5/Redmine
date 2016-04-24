@@ -5,6 +5,9 @@ eth_ip=$(ip addr list ${inet_dev} |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
 ServerName=`hostname`
 # SELINUX
 sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+# Firewall Configuration
+firewall-cmd --add-service=http --permanent
+firewall-cmd --reload
 # Install Prerequisite one by one
 # MySQL and HTTPD server Install
 yum -y install mariadb-server httpd wget
